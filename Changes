@@ -1,0 +1,7 @@
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+    Fix typo
+
+0.100830  2010-03-24 16:00:55 Asia/Seoul
+    First release
