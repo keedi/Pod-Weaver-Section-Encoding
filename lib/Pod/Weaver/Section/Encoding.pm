@@ -15,7 +15,7 @@ as well as an encoding, like this:
  
     =encoding utf-8
  
-It will look for the first package declaration, and for a comment in this form:
+It will look for a comment in this form:
  
     # ENCODING: utf-8
 
@@ -52,14 +52,8 @@ sub weave_section {
   my ($self, $document, $input) = @_;
 
   return unless my $ppi_document = $input->{ppi_document};
-  my $pkg_node = $ppi_document->find_first('PPI::Statement::Package');
 
   my $filename = $input->{filename} || 'file';
-
-  Carp::croak sprintf "couldn't find package declaration in %s", $filename
-    unless $pkg_node;
-
-  my $package = $pkg_node->namespace;
 
   my ($abstract)
     = $ppi_document->serialize =~ /^\s*#+\s*ENCODING:\s*(.+)$/m;
