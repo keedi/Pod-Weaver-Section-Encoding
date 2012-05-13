@@ -6,6 +6,8 @@ with 'Pod::Weaver::Role::Section';
 
 use Moose::Autobox;
 
+has 'default' => ( is => 'ro' );
+
 =head1 OVERVIEW
  
 This section plugin will produce a hunk of Pod giving the encoding of the document
@@ -30,6 +32,14 @@ You have to add C<[Encoding]> in your weaver.* configuration file:
     
     ...
 
+You can provide a default encoding like so:
+
+    [Encoding]
+    default = utf-8
+
+If you do not provide a default encoding and one cannot be found, this module
+will throw an error.
+
 I stole this code from L<Pod::Weaver::Section::Name>.
  
 =cut
@@ -53,6 +63,8 @@ sub weave_section {
 
   my ($abstract)
     = $ppi_document->serialize =~ /^\s*#+\s*ENCODING:\s*(.+)$/m;
+
+  defined $abstract or $abstract = $self->default;
 
   $self->log([ "couldn't find encoding in %s", $filename ]) unless $abstract;
  
